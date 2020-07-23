@@ -6,7 +6,7 @@ const validator = require('validator')
 const Schema = mongoose.Schema;
 
 // creating new schema
-const userSchema = new Schema({
+const adminSchema = new Schema({
     fullName: {
         type: String,
         lowercase: true,
@@ -33,22 +33,15 @@ const userSchema = new Schema({
                 throw new Error(`password cannot contain "password"`);
             }
         }
-    },
-    tokens: [
-        {
-            token: {
-                type: String,
-                required: true
-            },
-        },
-    ],
+    }
 },
     {
         timestamps: true
-    })
+    }
+)
 
 // compiling schema into a Model
-const User = mongoose.model('User', userSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 
 // export user
-module.exports = User;
+module.exports = Admin;

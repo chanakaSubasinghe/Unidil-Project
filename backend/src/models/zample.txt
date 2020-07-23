@@ -1,0 +1,15 @@
+// requiring dependencies
+const mongoose = require('mongoose');
+
+// define schema
+const Schema = mongoose.Schema;
+
+
+// creating new schema
+
+
+// compiling schema into a Model
+
+
+// export **
+module.exports 
