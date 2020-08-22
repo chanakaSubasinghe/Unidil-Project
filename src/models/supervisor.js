@@ -1,12 +1,12 @@
 // requiring dependencies
 const mongoose = require('mongoose');
-const validator = require('validator')
+const validator = require('validator');
 
 // define schema
 const Schema = mongoose.Schema;
 
 // creating new schema
-const adminSchema = new Schema({
+const supervisorSchema = new Schema({
     fullName: {
         type: String,
         lowercase: true,
@@ -20,7 +20,7 @@ const adminSchema = new Schema({
         unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error('Email is invalid!!!')
+                throw new Error('Email is invalid!!!');
             }
         }
     },
@@ -38,10 +38,10 @@ const adminSchema = new Schema({
     {
         timestamps: true
     }
-)
+);
 
 // compiling schema into a Model
-const Admin = mongoose.model('Admin', adminSchema);
+const Supervisor = mongoose.model('Supervisor', supervisorSchema);
 
 // export user
-module.exports = Admin;
+module.exports = Supervisor;
