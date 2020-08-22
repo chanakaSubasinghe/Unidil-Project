@@ -14,7 +14,7 @@ const Supervisor = require('../models/supervisor');
 * TODO: after create a new document, please comment or delete this route
 */
 
-router.post('/supervisors', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         // insert new document into the database
         const supervisor = new Supervisor(req.body);
@@ -38,7 +38,7 @@ router.post('/supervisors', async (req, res) => {
 */
 
 
-router.get('/api/supervisors', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         // retrieve all supervisor 
         const supervisors = await Supervisor.find({});
@@ -58,7 +58,7 @@ router.get('/api/supervisors', async (req, res) => {
 */
 
 
-router.get('/api/supervisors/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         // declaring provided id
         const _id = req.params.id;
@@ -86,7 +86,7 @@ router.get('/api/supervisors/:id', async (req, res) => {
 */
 
 
-router.patch('/api/supervisors/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
     try {
         // declaring variables
         const updates = Object.keys(req.body);
@@ -132,7 +132,7 @@ router.patch('/api/supervisors/:id', async (req, res) => {
 */
 
 
-router.delete('/api/supervisors/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         // find supervisor by provided id
         const supervisor = await Supervisor.findOneAndDelete({ _id: req.param.id });

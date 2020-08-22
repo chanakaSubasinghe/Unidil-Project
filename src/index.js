@@ -21,7 +21,7 @@ app.use(express.json());
 const supervisorRoute = require('./routes/supervisor');
 
 // using imported routes
-app.use('/api/', supervisorRoute);
+app.use('/api/supervisors', supervisorRoute);
 
 
 // serve static assets if in production
