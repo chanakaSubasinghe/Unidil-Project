@@ -14,9 +14,13 @@ const bagSchema = new Schema({
         trim: true,
         required: true
     },
-    size: {
-        type: String,
-        lowercase: true,
+    width: {
+        type: Number,
+        trim: true,
+        required: true
+    },
+    height: {
+        type: Number,
         trim: true,
         required: true
     },
@@ -32,7 +36,7 @@ const bagSchema = new Schema({
     {
         timestamps: true
     },
-)
+);
 
 // compiling schema into a Model
 const Bag = mongoose.model('Bag', bagSchema);

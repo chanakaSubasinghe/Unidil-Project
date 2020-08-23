@@ -1,5 +1,5 @@
 // requiring dependencies
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 // define schema
 const Schema = mongoose.Schema;
@@ -13,9 +13,20 @@ const employeeSchema = new Schema({
         unique: true,
         required: true
     },
-    isWork: {
+    contactNumber: {
+        type: String,
+        trim: true,
+        maxlength: 10,
+    },
+    isActive: {
         type: Boolean,
         default: true,
+        required: true
+    },
+    role: {
+        type: String,
+        trim: true,
+        lowercase: true,
         required: true
     },
     startDate: {
@@ -24,6 +35,11 @@ const employeeSchema = new Schema({
     },
     endDate: {
         type: Date
+    },
+    supervisor: {
+        type: Schema.Types.ObjectId,
+        ref: 'Supervisor',
+        required: true
     },
     tasks: [
         {
@@ -41,7 +57,7 @@ const employeeSchema = new Schema({
     {
         timestamps: true
     }
-)
+);
 
 // compiling schema into a Model
 const Employee = mongoose.model('Employee', employeeSchema);

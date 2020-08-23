@@ -1,11 +1,9 @@
-// requiring dependencies
+// requiring dependencies and models
 const express = require('express');
+const Supervisor = require('../models/supervisor');
 
 // defining router
 const router = express.Router();
-
-// importing models
-const Supervisor = require('../models/supervisor');
 
 /** 
 * * @route   POST api/supervisors
@@ -15,8 +13,9 @@ const Supervisor = require('../models/supervisor');
 */
 
 router.post('/', async (req, res) => {
+
     try {
-        // insert new document into the database
+        // insert
         const supervisor = new Supervisor(req.body);
 
         // save 
@@ -40,7 +39,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        // retrieve all supervisor 
+        // retrieve all 
         const supervisors = await Supervisor.find({});
 
         // send response with status code
@@ -135,7 +134,7 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         // find supervisor by provided id
-        const supervisor = await Supervisor.findOneAndDelete({ _id: req.param.id });
+        const supervisor = await Supervisor.findOneAndDelete({ _id: req.params.id });
 
         // condition
         if (!supervisor) {
