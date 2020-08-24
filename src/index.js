@@ -20,10 +20,12 @@ app.use(express.json());
 // importing routes
 const supervisorRoute = require('./routes/supervisor');
 const employeeRoute = require('./routes/employee');
+const bagRoute = require('./routes/bag');
 
 // using imported routes
 app.use('/api/supervisors/', supervisorRoute);
 app.use('/api/employees/', employeeRoute);
+app.use('/api/bags/', bagRoute);
 
 
 // serve static assets if in production
