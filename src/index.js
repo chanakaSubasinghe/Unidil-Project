@@ -22,12 +22,14 @@ const supervisorRoute = require('./routes/supervisor');
 const employeeRoute = require('./routes/employee');
 const bagRoute = require('./routes/bag');
 const recordRoute = require('./routes/record');
+const taskRoute = require('./routes/task');
 
 // using imported routes
 app.use('/api/supervisors/', supervisorRoute);
 app.use('/api/employees/', employeeRoute);
 app.use('/api/bags/', bagRoute);
 app.use('/api/employees/', recordRoute);
+app.use('/api/employees/', taskRoute);
 
 
 // serve static assets if in production

@@ -6,20 +6,24 @@ const Schema = mongoose.Schema;
 
 // creating new schema
 const taskSchema = new Schema({
+    bag: {
+        type: Schema.Types.ObjectId,
+        ref: 'Bag',
+        required: true
+    },
     pasteCount: {
-        type: Number
+        type: Number,
+        default: 0
     },
     foldCount: {
         type: Number,
+        default: 0
     },
-    employee: {
+    record: {
         type: Schema.Types.ObjectId,
-        ref: 'Employee'
+        ref: 'Record',
+        required: true
     },
-    bag: {
-        type: Schema.Types.ObjectId,
-        ref: 'Bag'
-    }
 },
     {
         timestamps: true

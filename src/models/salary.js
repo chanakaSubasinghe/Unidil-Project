@@ -27,13 +27,14 @@ const salarySchema = new Schema({
     },
     employee: {
         type: Schema.Types.ObjectId,
-        ref: 'Employee'
+        ref: 'Employee',
+        required: true
     }
 },
     {
         timestamps: true
     }
-)
+);
 
 // compiling schema into a Model
 const Salary = mongoose.model('Salary', salarySchema);
