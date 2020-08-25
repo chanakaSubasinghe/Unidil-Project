@@ -41,10 +41,10 @@ const employeeSchema = new Schema({
         ref: 'Supervisor',
         required: true
     },
-    tasks: [
+    records: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Task'
+            ref: 'Record'
         }
     ],
     salaries: [

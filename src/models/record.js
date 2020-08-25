@@ -5,31 +5,32 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // creating new schema
-const countSchema = new Schema({
-    foldCount: {
+const recordSchema = new Schema({
+    date: {
+        type: Date,
+        required: true
+    },
+    wage: {
         type: Number,
         default: 0
     },
-    pasteCount: {
-        type: Number,
-        default: 0
-    },
-    task: {
+    tasks: {
         type: Schema.Types.ObjectId,
         ref: 'Task'
     },
-    bag: {
+    employee: {
         type: Schema.Types.ObjectId,
-        ref: 'Bag'
+        ref: 'Employee',
+        required: true
     }
 },
     {
         timestamps: true
     }
-)
+);
 
 // compiling schema into a Model
-const Count = mongoose.model('Count', countSchema);
+const Record = mongoose.model('Record', recordSchema);
 
 // export count
-module.exports = Count;
+module.exports = Record;
