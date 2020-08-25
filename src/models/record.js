@@ -14,10 +14,12 @@ const recordSchema = new Schema({
         type: Number,
         default: 0
     },
-    tasks: {
-        type: Schema.Types.ObjectId,
-        ref: 'Task'
-    },
+    tasks: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Task'
+        }
+    ],
     employee: {
         type: Schema.Types.ObjectId,
         ref: 'Employee',
