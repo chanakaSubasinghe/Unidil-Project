@@ -34,7 +34,10 @@ router.post('/:employeeID/records/:recordID/tasks', async (req, res) => {
         }
 
         // insert 
-        const task = await new Task(req.body);
+        const task = await new Task({
+            ...req.body,
+            record: record._id
+        });
 
         // save
         await task.save();

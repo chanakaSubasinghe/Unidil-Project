@@ -1,21 +1,20 @@
 // requiring dependencies and models
 const express = require('express');
-const Record = require('../models/record');
 const Employee = require('../models/employee');
+const Salary = require('../models/salary');
 
 // defining router
 const router = express.Router();
 
 /** 
-* * @route   POST api/employees/:employeeID/records
-* * @desc    Create new record
+* * @route   POST api/employees/:employeeID/salaries
+* * @desc    Create new salary
 * ! @access  Private      
 */
 
-router.post('/:employeeID/records/', async (req, res) => {
+router.post('/:employeeID/salaries', async (req, res) => {
     try {
-
-        // find 
+        // find
         const employee = await Employee.findOne({ _id: req.params.employeeID });
 
         // condition
@@ -24,40 +23,38 @@ router.post('/:employeeID/records/', async (req, res) => {
             return res.status(404).send('Employee not found!');
         }
 
-
         // insert
-        const record = await new Record({
+        const salary = await new Salary({
             ...req.body,
             employee: employee._id
         });
 
         // save
-        await record.save();
+        await salary.save();
 
-        // assign record
-        await employee.records.push(record);
+        // assign
+        await employee.salaries.push(salary);
 
         // save
-        employee.save();
+        await employee.save();
 
-        // send response with status
-        res.status(201).send(record);
+        // send response with status code
+        res.status(201).send(salary);
     } catch (error) {
-        // send response with status
+        // send response with status code
         res.status(400).send(error);
     }
 });
 
-
 /** 
-* * @route   GET api/employees/:employeeID/records
-* * @desc    GET all
-* * @access  Public      
+* * @route   GET api/employees/:employeeID/salaries
+* * @desc    Get all salaries
+* ! @access  Private      
 */
 
-router.get('/:employeeID/records', async (req, res) => {
+router.get('/:employeeID/salaries', async (req, res) => {
     try {
-        // find 
+        // find
         const employee = await Employee.findOne({ _id: req.params.employeeID });
 
         // condition
@@ -67,25 +64,25 @@ router.get('/:employeeID/records', async (req, res) => {
         }
 
         // find
-        await employee.populate('records').execPopulate();
+        await employee.populate('salaries').execPopulate();
 
-        // send response with status
-        res.status(200).send(employee.records);
+        // send response with status code
+        res.status(200).send(employee.salaries);
     } catch (error) {
-        // send response with status
+        // send response with status code
         res.status(400).send(error);
     }
 });
 
 /** 
-* * @route   GET api/employees/:employeeID/records/:recordID
-* * @desc    GET record
-* * @access  Public       
+* * @route   GET api/employees/:employeeID/salaries/:salaryID
+* * @desc    Get salary
+* ! @access  Private      
 */
 
-router.get('/:employeeID/records/:recordID', async (req, res) => {
+router.get('/:employeeID/salaries/:salaryID', async (req, res) => {
     try {
-        // find 
+        // find
         const employee = await Employee.findOne({ _id: req.params.employeeID });
 
         // condition
@@ -94,36 +91,42 @@ router.get('/:employeeID/records/:recordID', async (req, res) => {
             return res.status(404).send('Employee not found!');
         }
 
-        // find 
-        const record = await Record.findOne({ _id: req.params.recordID, employee: employee._id });
+        // find
+        const salary = await Salary.findOne({ _id: req.params.salaryID, employee: employee._id });
 
-        // send response with status
-        res.status(200).send(record);
+        // condition
+        if (!salary) {
+            // send response with status code
+            return res.status(404).send('Salary not found!');
+        }
+
+        // send response with status code
+        res.status(200).send(salary);
     } catch (error) {
-        // send response with status
+        // send response with status code
         res.status(400).send(error);
     }
 });
 
+
 /** 
-* * @route   PATCH api/employees/:employeeID/records/recordID
-* * @desc    Update record
-* ! @access  Private  
+* * @route   POST api/employees/:employeeID/salaries/:salaryID
+* * @desc    Create new salary
+* ! @access  Private      
 */
 
-router.patch('/:employeeID/records/:recordID', async (req, res) => {
+router.patch('/:employeeID/salaries/:salaryID', async (req, res) => {
 
     // declaring variables
     const updates = Object.keys(req.body);
-    const allowedUpdates = ['date'];
+    const allowedUpdates = ['month', 'numOfFoldBags', 'numOfPasteBags'];
     const isValidation = updates.every((update) => allowedUpdates.includes(update));
 
     // condition
     if (!isValidation) {
-        // send response with status 
-        return res.status(400).send('Invalid Updates');
+        // send response with status code
+        return res.status(400).send({ error: 'Invalid updates' });
     }
-
 
     try {
         // find
@@ -136,38 +139,31 @@ router.patch('/:employeeID/records/:recordID', async (req, res) => {
         }
 
         // find
-        const record = await Record.findOne({ _id: req.params.recordID, employee: employee._id });
-
-        // condition
-        if (!record) {
-            // send response with status code
-            return res.status(404).send(record);
-        }
+        const salary = await Salary.findOne({ _id: req.params.salaryID, employee: employee._id });
 
         // update
         updates.forEach((update) => {
-            record[update] = req.body[update];
+            salary[update] = req.body[update];
         });
 
-        //save
-        await record.save();
+        // save
+        await salary.save();
 
         // send response with status code
-        res.status(200).send(record);
+        res.status(200).send(salary);
     } catch (error) {
         // send response with status code
         res.status(400).send(error);
     }
 });
 
-
 /** 
-* * @route   DELETE api/employees/:employeeID/records/:recordID
-* * @desc    Delete record
+* * @route   DELETE api/employees/:employeeID/salaries/:salaryID
+* * @desc    Delete salary
 * ! @access  Private      
 */
 
-router.delete('/:employeeID/records/:recordID', async (req, res) => {
+router.delete('/:employeeID/salaries/:salaryID', async (req, res) => {
     try {
         // find
         const employee = await Employee.findOne({ _id: req.params.employeeID });
@@ -179,21 +175,22 @@ router.delete('/:employeeID/records/:recordID', async (req, res) => {
         }
 
         // find
-        const record = await Record.findOneAndDelete({ _id: req.params.recordID, employee: employee._id });
+        const salary = await Salary.findOneAndDelete({ _id: req.params.salaryID, employee: employee._id });
 
         // condition
-        if (!record) {
+        if (!salary) {
             // send response with status code
-            return res.status(404).send('Record not found!');
+            return res.status(404).send('Salary not found!');
         }
 
         // send response with status code
-        res.status(200).send(record);
+        res.status(200).send(salary);
     } catch (error) {
         // send response with status code
         res.status(400).send(error);
     }
 });
+
 
 // export router
 module.exports = router;
