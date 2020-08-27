@@ -1,24 +1,44 @@
 // requiring dependencies and models
 const express = require('express');
 const Employee = require('../models/employee');
+const Supervisor = require('../models/supervisor');
 
 // defining router
 const router = express.Router();
 
 
 /** 
-* * @route   POST api/employees
+* * @route   POST api/:supervisorID/employees
 * * @desc    Create new employee
 * ! @access  Private      
 */
 
-router.post('/', async (req, res) => {
+router.post('/:supervisorID/employees', async (req, res) => {
     try {
+
+        // find
+        const supervisor = await Supervisor.findOne({ _id: req.params.supervisorID });
+
+        // condition
+        if (!supervisor) {
+            // send response with status code
+            res.status(404).send('Supervisor not found');
+        }
+
         // insert
-        const employee = await new Employee(req.body);
+        const employee = await new Employee({
+            ...req.body,
+            supervisor: supervisor._id
+        });
 
         // save
         await employee.save();
+
+        // assign
+        supervisor.employees = supervisor.employees.concat(employee);
+
+        // save
+        supervisor.save();
 
         // send response with status code
         res.status(201).send(employee);
@@ -29,18 +49,27 @@ router.post('/', async (req, res) => {
 
 
 /** 
-* * @route   GET api/employees
+* * @route   GET api/:supervisorID/employees
 * * @desc    GET All employees
 * * @access  Public      
 */
 
-router.get('/', async (req, res) => {
+router.get('/:supervisorID/employees', async (req, res) => {
     try {
-        // get all 
-        const employees = await Employee.find({});
+        // find 
+        const supervisor = await Supervisor.findOne({ _id: req.params.supervisorID });
+
+        // condition
+        if (!supervisor) {
+            // send response with status code
+            return res.status(404).send('Supervisor not found!');
+        }
+
+        // find
+        await supervisor.populate('employees').execPopulate();
 
         // send response with status code
-        res.status(200).send(employees);
+        res.status(200).send(supervisor.employees);
     } catch (error) {
         // send response with status code
         res.status(400).send(error);
@@ -49,15 +78,15 @@ router.get('/', async (req, res) => {
 
 
 /** 
-* * @route   GET api/employees/:id
+* * @route   GET api/:supervisorID/employees/:id
 * * @desc    GET employee
 * * @access  Public      
 */
 
-router.get('/:id', async (req, res) => {
+router.get('/:supervisorID/employees/:id', async (req, res) => {
     try {
         // find
-        const employee = await Employee.findOne({ _id: req.params.id });
+        const employee = await Employee.findOne({ _id: req.params.id, supervisor: req.params.supervisorID });
 
         // condition
         if (!employee) {
@@ -75,12 +104,12 @@ router.get('/:id', async (req, res) => {
 });
 
 /** 
-* * @route   Patch api/employees/:id
+* * @route   Patch api/:supervisorID/employees/:id
 * * @desc    Update employee
 * ! @access  Private      
 */
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:supervisorID/employees/:id', async (req, res) => {
 
     // declaring variables
     const updates = Object.keys(req.body);
@@ -94,7 +123,7 @@ router.patch('/:id', async (req, res) => {
 
     try {
         // find 
-        const employee = await Employee.findOne({ _id: req.params.id });
+        const employee = await Employee.findOne({ _id: req.params.id, supervisor: req.params.supervisorID });
 
         // condition
         if (!employee) {
@@ -117,15 +146,15 @@ router.patch('/:id', async (req, res) => {
 });
 
 /** 
-* * @route   DELETE api/employees/:id
+* * @route   DELETE api/:supervisorID/employees/:id
 * * @desc    Delete employees
 * ! @access  Private      
 */
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:supervisorID/employees/:id', async (req, res) => {
     try {
         // find and delete 
-        const employee = await Employee.findOneAndDelete({ _id: req.params.id });
+        const employee = await Employee.findOneAndDelete({ _id: req.params.id, supervisor: req.params.supervisorID });
 
         // condition
         if (!employee) {

@@ -33,7 +33,7 @@ router.post('/:employeeID/salaries', async (req, res) => {
         await salary.save();
 
         // assign
-        await employee.salaries.push(salary);
+        employee.salaries = employee.salaries.concat(salary);
 
         // save
         await employee.save();
@@ -55,19 +55,11 @@ router.post('/:employeeID/salaries', async (req, res) => {
 router.get('/:employeeID/salaries', async (req, res) => {
     try {
         // find
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
+        const salaries = await Salary.find({ employee: req.params.employeeID });
 
-        // condition
-        if (!employee) {
-            // send response with status code
-            return res.status(404).send('Employee not found!');
-        }
-
-        // find
-        await employee.populate('salaries').execPopulate();
 
         // send response with status code
-        res.status(200).send(employee.salaries);
+        res.status(200).send(salaries);
     } catch (error) {
         // send response with status code
         res.status(400).send(error);
@@ -82,17 +74,9 @@ router.get('/:employeeID/salaries', async (req, res) => {
 
 router.get('/:employeeID/salaries/:salaryID', async (req, res) => {
     try {
-        // find
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
-
-        // condition
-        if (!employee) {
-            // send response with status code
-            return res.status(404).send('Employee not found!');
-        }
 
         // find
-        const salary = await Salary.findOne({ _id: req.params.salaryID, employee: employee._id });
+        const salary = await Salary.findOne({ _id: req.params.salaryID, employee: req.params.employeeID });
 
         // condition
         if (!salary) {
@@ -130,16 +114,7 @@ router.patch('/:employeeID/salaries/:salaryID', async (req, res) => {
 
     try {
         // find
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
-
-        // condition
-        if (!employee) {
-            // send response with status code
-            return res.status(404).send('Employee not found!');
-        }
-
-        // find
-        const salary = await Salary.findOne({ _id: req.params.salaryID, employee: employee._id });
+        const salary = await Salary.findOne({ _id: req.params.salaryID, employee: req.params.employeeID });
 
         // update
         updates.forEach((update) => {
@@ -165,17 +140,10 @@ router.patch('/:employeeID/salaries/:salaryID', async (req, res) => {
 
 router.delete('/:employeeID/salaries/:salaryID', async (req, res) => {
     try {
-        // find
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
 
-        // condition
-        if (!employee) {
-            // send response with status code
-            return res.status(404).send('Employee not found!');
-        }
 
         // find
-        const salary = await Salary.findOneAndDelete({ _id: req.params.salaryID, employee: employee._id });
+        const salary = await Salary.findOneAndDelete({ _id: req.params.salaryID, employee: req.params.employeeID });
 
         // condition
         if (!salary) {

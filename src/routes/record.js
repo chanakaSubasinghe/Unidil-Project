@@ -35,10 +35,10 @@ router.post('/:employeeID/records/', async (req, res) => {
         await record.save();
 
         // assign record
-        await employee.records.push(record);
+        employee.records = employee.records.concat(record);
 
         // save
-        employee.save();
+        await employee.save();
 
         // send response with status
         res.status(201).send(record);
@@ -58,19 +58,11 @@ router.post('/:employeeID/records/', async (req, res) => {
 router.get('/:employeeID/records', async (req, res) => {
     try {
         // find 
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
+        const records = await Record.find({ employee: req.params.employeeID });
 
-        // condition
-        if (!employee) {
-            // send response with status code
-            return res.status(404).send('Employee not found!');
-        }
-
-        // find
-        await employee.populate('records').execPopulate();
 
         // send response with status
-        res.status(200).send(employee.records);
+        res.status(200).send(records);
     } catch (error) {
         // send response with status
         res.status(400).send(error);
@@ -85,17 +77,15 @@ router.get('/:employeeID/records', async (req, res) => {
 
 router.get('/:employeeID/records/:recordID', async (req, res) => {
     try {
+
         // find 
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
+        const record = await Record.findOne({ _id: req.params.recordID, employee: req.params.employeeID });
 
         // condition
-        if (!employee) {
+        if (!record) {
             // send response with status code
-            return res.status(404).send('Employee not found!');
+            return res.status(404).send('Record not found!');
         }
-
-        // find 
-        const record = await Record.findOne({ _id: req.params.recordID, employee: employee._id });
 
         // send response with status
         res.status(200).send(record);
@@ -126,17 +116,9 @@ router.patch('/:employeeID/records/:recordID', async (req, res) => {
 
 
     try {
-        // find
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
-
-        // condition
-        if (!employee) {
-            // send response with status code
-            return res.status(404).send('Employee not found!');
-        }
 
         // find
-        const record = await Record.findOne({ _id: req.params.recordID, employee: employee._id });
+        const record = await Record.findOne({ _id: req.params.recordID, employee: req.params.employeeID });
 
         // condition
         if (!record) {
@@ -169,17 +151,9 @@ router.patch('/:employeeID/records/:recordID', async (req, res) => {
 
 router.delete('/:employeeID/records/:recordID', async (req, res) => {
     try {
-        // find
-        const employee = await Employee.findOne({ _id: req.params.employeeID });
-
-        // condition
-        if (!employee) {
-            // send response with status code
-            return res.status(404).send('Employee not found!');
-        }
 
         // find
-        const record = await Record.findOneAndDelete({ _id: req.params.recordID, employee: employee._id });
+        const record = await Record.findOneAndDelete({ _id: req.params.recordID, employee: req.params.employeeID });
 
         // condition
         if (!record) {

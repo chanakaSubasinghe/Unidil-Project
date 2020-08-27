@@ -10,6 +10,14 @@ const recordSchema = new Schema({
         type: Date,
         required: true
     },
+    numOfFoldBags: {
+        type: Number,
+        default: 0
+    },
+    numOfPasteBags: {
+        type: Number,
+        default: 0
+    },
     wage: {
         type: Number,
         default: 0

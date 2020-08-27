@@ -27,7 +27,7 @@ const salaryRoute = require('./routes/salary');
 
 // using imported routes
 app.use('/api/supervisors/', supervisorRoute);
-app.use('/api/employees/', employeeRoute);
+app.use('/api/', employeeRoute);
 app.use('/api/bags/', bagRoute);
 app.use('/api/employees/', recordRoute);
 app.use('/api/employees/', taskRoute);

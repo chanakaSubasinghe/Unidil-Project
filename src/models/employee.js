@@ -36,11 +36,6 @@ const employeeSchema = new Schema({
     endDate: {
         type: Date
     },
-    supervisor: {
-        type: Schema.Types.ObjectId,
-        ref: 'Supervisor',
-        required: true
-    },
     records: [
         {
             type: Schema.Types.ObjectId,
@@ -52,7 +47,12 @@ const employeeSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Salary'
         }
-    ]
+    ],
+    supervisor: {
+        type: Schema.Types.ObjectId,
+        ref: 'Supervisor',
+        required: true
+    },
 },
     {
         timestamps: true
