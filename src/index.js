@@ -1,6 +1,7 @@
 // requiring dependencies
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 // requiring DB
 require('./db/mongoose');
@@ -16,6 +17,8 @@ const environment = process.env.NODE_ENV || 'development';
 // use JSON
 app.use(express.json());
 
+// use cors
+app.use(cors());
 
 // importing routes
 const supervisorRoute = require('./routes/supervisor');
@@ -27,7 +30,7 @@ const salaryRoute = require('./routes/salary');
 
 // using imported routes
 app.use('/api/supervisors/', supervisorRoute);
-app.use('/api/', employeeRoute);
+app.use('/api/employees/', employeeRoute);
 app.use('/api/bags/', bagRoute);
 app.use('/api/employees/', recordRoute);
 app.use('/api/employees/', taskRoute);

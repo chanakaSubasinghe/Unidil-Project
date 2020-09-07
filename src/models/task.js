@@ -32,56 +32,6 @@ const taskSchema = new Schema({
     }
 );
 
-// before save
-taskSchema.pre('save', async function (next) {
-    // initializing and destructuring
-    const task = this;
-    const bag = await Bag.findOne({ _id: task.bag.toString() });
-    const record = await Record.findOne({ _id: task.record.toString() });
-
-    const { foldPrice, pastePrice } = bag;
-    const { foldCount, pasteCount } = task;
-
-    const totalForFold = foldPrice * foldCount;
-    const totalForPaste = pastePrice * pasteCount;
-
-    // calculation
-    record.wage += (totalForFold + totalForPaste);
-    record.numOfFoldBags += foldCount;
-    record.numOfPasteBags += pasteCount;
-
-    // save
-    await record.save();
-
-    next();
-});
-
-
-// after delete
-taskSchema.pre('findByIdAndDelete', async function (next) {
-    // initializing and destructuring
-    const task = this;
-    const bag = await Bag.findOne({ _id: task.bag.toString() });
-    const record = await Record.findOne({ _id: task.record.toString() });
-
-    const { foldPrice, pastePrice } = bag;
-    const { foldCount, pasteCount } = task;
-
-    const totalForFold = foldPrice * foldCount;
-    const totalForPaste = pastePrice * pasteCount;
-
-    // calculation
-    record.wage -= (totalForFold + totalForPaste);
-    record.numOfFoldBags -= foldCount;
-    record.numOfPasteBags -= pasteCount;
-
-    // save
-    await record.save();
-
-    next();
-});
-
-
 // compiling schema into a Model
 const Task = mongoose.model('Task', taskSchema);
 

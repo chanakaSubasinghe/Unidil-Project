@@ -8,37 +8,19 @@ const router = express.Router();
 
 
 /** 
-* * @route   POST api/:supervisorID/employees
+* * @route   POST api/employees
 * * @desc    Create new employee
 * ! @access  Private      
 */
 
-router.post('/:supervisorID/employees', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
 
-        // find
-        const supervisor = await Supervisor.findOne({ _id: req.params.supervisorID });
-
-        // condition
-        if (!supervisor) {
-            // send response with status code
-            res.status(404).send('Supervisor not found');
-        }
-
         // insert
-        const employee = await new Employee({
-            ...req.body,
-            supervisor: supervisor._id
-        });
+        const employee = await new Employee(req.body);
 
         // save
         await employee.save();
-
-        // assign
-        supervisor.employees = supervisor.employees.concat(employee);
-
-        // save
-        supervisor.save();
 
         // send response with status code
         res.status(201).send(employee);
@@ -49,27 +31,18 @@ router.post('/:supervisorID/employees', async (req, res) => {
 
 
 /** 
-* * @route   GET api/:supervisorID/employees
+* * @route   GET api/employees
 * * @desc    GET All employees
 * * @access  Public      
 */
 
-router.get('/:supervisorID/employees', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         // find 
-        const supervisor = await Supervisor.findOne({ _id: req.params.supervisorID });
-
-        // condition
-        if (!supervisor) {
-            // send response with status code
-            return res.status(404).send('Supervisor not found!');
-        }
-
-        // find
-        await supervisor.populate('employees').execPopulate();
+        const employees = await Employee.find({});
 
         // send response with status code
-        res.status(200).send(supervisor.employees);
+        res.status(200).send(employees);
     } catch (error) {
         // send response with status code
         res.status(400).send(error);
@@ -78,15 +51,15 @@ router.get('/:supervisorID/employees', async (req, res) => {
 
 
 /** 
-* * @route   GET api/:supervisorID/employees/:id
+* * @route   GET api/employees/:id
 * * @desc    GET employee
 * * @access  Public      
 */
 
-router.get('/:supervisorID/employees/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         // find
-        const employee = await Employee.findOne({ _id: req.params.id, supervisor: req.params.supervisorID });
+        const employee = await Employee.findOne({ _id: req.params.id });
 
         // condition
         if (!employee) {
@@ -104,12 +77,12 @@ router.get('/:supervisorID/employees/:id', async (req, res) => {
 });
 
 /** 
-* * @route   Patch api/:supervisorID/employees/:id
+* * @route   Patch api/employees/:id
 * * @desc    Update employee
 * ! @access  Private      
 */
 
-router.patch('/:supervisorID/employees/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
 
     // declaring variables
     const updates = Object.keys(req.body);
@@ -123,7 +96,7 @@ router.patch('/:supervisorID/employees/:id', async (req, res) => {
 
     try {
         // find 
-        const employee = await Employee.findOne({ _id: req.params.id, supervisor: req.params.supervisorID });
+        const employee = await Employee.findOne({ _id: req.params.id });
 
         // condition
         if (!employee) {
@@ -146,15 +119,15 @@ router.patch('/:supervisorID/employees/:id', async (req, res) => {
 });
 
 /** 
-* * @route   DELETE api/:supervisorID/employees/:id
+* * @route   DELETE api/employees/:id
 * * @desc    Delete employees
 * ! @access  Private      
 */
 
-router.delete('/:supervisorID/employees/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         // find and delete 
-        const employee = await Employee.findOneAndDelete({ _id: req.params.id, supervisor: req.params.supervisorID });
+        const employee = await Employee.findOneAndDelete({ _id: req.params.id });
 
         // condition
         if (!employee) {

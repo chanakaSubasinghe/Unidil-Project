@@ -33,13 +33,7 @@ const supervisorSchema = new Schema({
                 throw new Error(`password cannot contain "password"`);
             }
         }
-    },
-    employees: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Employee'
-        }
-    ],
+    }
 },
     {
         timestamps: true

@@ -2,7 +2,6 @@
 const express = require('express');
 const Task = require('../models/task');
 const Record = require('../models/record');
-const Employee = require('../models/employee');
 
 // defining router
 const router = express.Router();
@@ -34,10 +33,12 @@ router.post('/:employeeID/records/:recordID/tasks', async (req, res) => {
         // save
         await task.save();
 
+        // increment count 
+        record.numOfFoldBags += task.foldCount;
+        record.numOfPasteBags += task.pasteCount;
 
         // assign
         record.tasks = record.tasks.concat(task);
-
 
         // save
         await record.save();
@@ -195,6 +196,13 @@ router.delete('/:employeeID/records/:recordID/tasks/:taskID', async (req, res) =
             // send response with status code
             return res.status(404).send('Task not found');
         }
+
+        // reduce count
+        record.numOfFoldBags -= task.foldCount;
+        record.numOfPasteBags -= task.pasteCount;
+
+        // save
+        await record.save();
 
         // send response with status code
         res.status(200).send(task);
