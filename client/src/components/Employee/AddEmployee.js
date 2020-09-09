@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import Response from '../Response';
 
-function AddBag() {
+import axios from 'axios';
+
+import Response from '../Response';
+import DatePicker from 'react-datepicker';
+
+import "react-datepicker/dist/react-datepicker.css";
+
+function AddEmployee() {
 
     // state
-    const [bag, setBag] = useState({
-        name: "",
-        width: "",
-        height: "",
-        foldPrice: "",
-        pastePrice: ""
+    const [employee, setEmployee] = useState({
+        fullName: "",
+        role: "",
+        startDate: new Date(),
+        contactNumber: "",
+        supervisor: ""
     });
 
     const [response, setResponse] = useState({
@@ -22,8 +27,8 @@ function AddBag() {
     function handleChange(event) {
 
         const { name, value } = event.target;
-
-        setBag((prevValues) => {
+        console.log(name, value);
+        setEmployee((prevValues) => {
             return {
                 ...prevValues,
                 [name]: value
@@ -37,9 +42,9 @@ function AddBag() {
         event.preventDefault();
 
         try {
-            const newBag = await axios.post('/api/bags', bag);
+            const newEmployee = await axios.post('/api/employees', employee);
 
-            if (newBag) {
+            if (newEmployee) {
                 setResponse({
                     status: true,
                     message: 'Successfully added.',
@@ -73,38 +78,27 @@ function AddBag() {
 
     return (
         <div>
-            <h1 className="text-center my-5">Add Bag</h1>
+            <h1 className="text-center my-5">Add Employee</h1>
 
             {response.status &&
                 <Response message={response.message} alertType={response.alertType} onClose={() => setResponse({ status: !response.status })} />
             }
 
             <form onSubmit={onSubmit}>
-                <div class="form-group">
-                    <label>Bag Name</label>
-                    <input type="text" className="form-control" name="name" placeholder="Tea Bag" maxLength="30" value={bag.name} onChange={handleChange} required />
-                </div>
-
-                <div class="form-group">
-                    <label>Bag Width</label>
-                    <input type="number" className="form-control" name="width" placeholder="9" max="100" value={bag.width} onChange={handleChange} required />
-                </div>
-
-                <div class="form-group">
-                    <label>Bag Height</label>
-                    <input type="number" className="form-control" name="height" placeholder="4" max="100" value={bag.height} onChange={handleChange} required />
+                <div className="form-group">
+                    <label>Full Name</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="fullName"
+                        placeholder="Ruvandi Munasinghe"
+                        maxLength="30" value={employee.fullName}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
 
 
-                <div class="form-group">
-                    <label>Fold Price (Rs.)</label>
-                    <input type="number" className="form-control" name="foldPrice" placeholder="2.75" maxLength="30" value={bag.foldPrice} onChange={handleChange} required />
-                </div>
-
-                <div class="form-group">
-                    <label>Paste Price (Rs.)</label>
-                    <input type="number" className="form-control" name="pastePrice" placeholder="1.50" maxLength="30" value={bag.pastePrice} onChange={handleChange} required />
-                </div>
 
                 <div className="text-center">
                     <button type="submit" className="btn btn-lg btn-primary">Submit</button>
@@ -114,5 +108,5 @@ function AddBag() {
     );
 }
 
-export default AddBag;
+export default AddEmployee;
 

@@ -12,7 +12,9 @@ const router = express.Router();
 */
 
 router.post('/', async (req, res) => {
+
     try {
+
         // insert
         const bag = await new Bag(req.body);
 
