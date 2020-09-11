@@ -6,6 +6,7 @@ const cors = require('cors');
 // requiring DB
 require('./db/mongoose');
 
+// declaring app      
 const app = express();
 
 // defining the PORT
