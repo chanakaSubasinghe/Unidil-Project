@@ -9,7 +9,6 @@ require('./db/mongoose');
 // declaring app      
 const app = express();
 
-// defining the PORT
 const PORT = process.env.PORT || 5000;
 
 // define the current environment
