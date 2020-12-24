@@ -1,45 +1,33 @@
-// requiring dependencies
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
-// requiring DB
 require('./db/mongoose');
 
-// declaring app      
 const app = express();
-
 const PORT = process.env.PORT || 5000;
-
-// define the current environment
 const environment = process.env.NODE_ENV || 'development';
 
-// use JSON
-app.use(express.json());
+app.get('/', (req, res) => {
+    res.json({ name: 'chanaka' });
+});
 
-// use cors
+app.use(express.json());
 app.use(cors());
 
-// importing routes
 const supervisorRoute = require('./routes/supervisor');
 const employeeRoute = require('./routes/employee');
 const bagRoute = require('./routes/bag');
 const recordRoute = require('./routes/record');
-const taskRoute = require('./routes/task');
 const salaryRoute = require('./routes/salary');
 
-// using imported routes
-app.use('/api/supervisors/', supervisorRoute);
-app.use('/api/employees/', employeeRoute);
-app.use('/api/bags/', bagRoute);
-app.use('/api/employees/', recordRoute);
-app.use('/api/employees/', taskRoute);
+app.use(bagRoute);
+app.use(supervisorRoute);
+app.use(employeeRoute);
+app.use(recordRoute);
 app.use('/api/employees/', salaryRoute);
 
-
-// serve static assets if in production
 if (environment === 'production') {
-    //set static folder
     app.use(express.static('client/build'));
 
     app.get('*', async (req, res) => {
@@ -47,11 +35,6 @@ if (environment === 'production') {
     });
 }
 
-app.get('/', (req, res) => {
-    res.json({ name: 'chanaka' });
-});
-
-// server listener
 app.listen(PORT, () => {
     console.log(`Server is running on PORT ${PORT}`);
 });

@@ -17,6 +17,7 @@ const employeeSchema = new Schema({
         type: String,
         trim: true,
         maxlength: 10,
+        unique: true
     },
     isActive: {
         type: Boolean,

@@ -1,11 +1,7 @@
-// requiring dependencies
 const mongoose = require('mongoose');
 
-// define schema
 const Schema = mongoose.Schema;
 
-
-// creating new schema
 const salarySchema = new Schema({
     month: {
         type: String,

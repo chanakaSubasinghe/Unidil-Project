@@ -1,33 +1,28 @@
-// requiring dependencies
 const mongoose = require('mongoose');
-
-// define schema
 const Schema = mongoose.Schema;
 
-// creating new schema
 const recordSchema = new Schema({
+    bag: {
+        type: Schema.Types.ObjectId,
+        ref: 'Bag',
+        required: true
+    },
     date: {
         type: Date,
         required: true
     },
     numOfFoldBags: {
         type: Number,
-        default: 0
+        required: true
     },
     numOfPasteBags: {
         type: Number,
-        default: 0
+        required: true
     },
     wage: {
         type: Number,
-        default: 0
+        required: true
     },
-    tasks: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Task'
-        }
-    ],
     employee: {
         type: Schema.Types.ObjectId,
         ref: 'Employee',
@@ -39,8 +34,7 @@ const recordSchema = new Schema({
     }
 );
 
-// compiling schema into a Model
+
 const Record = mongoose.model('Record', recordSchema);
 
-// export count
 module.exports = Record;
