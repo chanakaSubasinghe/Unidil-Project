@@ -11,7 +11,7 @@ function NavBar() {
 
             <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                 <div className="navbar-nav form-inline my-2 my-lg-0">
-                    {/* <li className="nav-item active">
+                    <li className="nav-item active">
                         <Link className="nav-link" to="/add-bag">Add Bag</Link>
                     </li>
                     <li className="nav-item active">
@@ -19,7 +19,7 @@ function NavBar() {
                     </li>
                     <li className="nav-item active">
                         <Link className="nav-link" to="/add-record">Add Record</Link>
-                    </li> */}
+                    </li>
                 </div>
             </div>
         </nav>

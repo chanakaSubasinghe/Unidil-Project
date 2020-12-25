@@ -2,15 +2,15 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
-require('./db/mongoose');
+// require('./db/mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const environment = process.env.NODE_ENV || 'development';
 
-// app.get('/', (req, res) => {
-//     res.json({ name: `port - ${process.env.PORT}, environment - ${process.env.NODE_ENV}` });
-// });
+app.get('/', (req, res) => {
+    res.json({ name: `port - ${process.env.PORT}, environment - ${process.env.NODE_ENV}` });
+});
 
 app.use(express.json());
 app.use(cors());
@@ -22,10 +22,10 @@ const recordRoute = require('./routes/record');
 const salaryRoute = require('./routes/salary');
 
 // app.use(bagRoute);
-// app.use(supervisorRoute);
-// app.use(employeeRoute);
-// app.use(recordRoute);
-// app.use('/api/employees/', salaryRoute);
+app.use(supervisorRoute);
+app.use(employeeRoute);
+app.use(recordRoute);
+app.use('/api/employees/', salaryRoute);
 
 if (environment === 'production') {
     app.use(express.static('client/build'));
