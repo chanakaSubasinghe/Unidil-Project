@@ -27,13 +27,13 @@ function AddRecord() {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Total Paste Count</label>
+                    <label className="col-sm-2 col-form-label">Total Pasted Bags</label>
                     <div className="col-sm-10">
                         <input type="text" className="form-control" placeholder="100" />
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Total Fold Count</label>
+                    <label className="col-sm-2 col-form-label">Total Folded Bags</label>
                     <div className="col-sm-10">
                         <input type="tel" className="form-control" placeholder="40" />
                     </div>

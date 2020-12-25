@@ -8,7 +8,7 @@ function Home() {
             <h1 className="text-center mt-5">Uni-Dil Packaging Limited</h1>
 
             <div className="text-center my-5">
-                <img src={packaging} className="img-fluid" alt="Responsive image" width="50%"></img>
+                <img src={packaging} className="img-fluid" alt="Home-pic" width="50%"></img>
             </div>
         </div>
     );
