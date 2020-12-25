@@ -1,9 +1,8 @@
 // requiring mongoose
 const mongoose = require('mongoose');
 
-
 // DB connect function
-const connectDataBase = async ({ env: { MONGODB_URL: URL } }) => {
+const connectDataBase = async (URL) => {
 
     try {
         // database connection
@@ -13,12 +12,10 @@ const connectDataBase = async ({ env: { MONGODB_URL: URL } }) => {
             useFindAndModify: false,
             useUnifiedTopology: true,
         }, () => console.log('Database Connected!'));
-
-
     } catch (error) {
         console.log('Error', error);
     }
 
 };
 
-connectDataBase(process);
+await connectDataBase(process.env.MONGODB_URL);
