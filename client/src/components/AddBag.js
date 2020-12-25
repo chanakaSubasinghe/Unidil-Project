@@ -13,15 +13,15 @@ function AddBag() {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label for="inputEmail3" className="col-sm-2 col-form-label">Bag Width (inch)</label>
+                    <label for="inputEmail3" className="col-sm-2 col-form-label">Bag Width (cm)</label>
                     <div className="col-sm-10">
-                        <input type="number" className="form-control" placeholder="7" />
+                        <input type="number" className="form-control" placeholder="420" />
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label for="inputEmail3" className="col-sm-2 col-form-label">Bag Height (inch)</label>
+                    <label for="inputEmail3" className="col-sm-2 col-form-label">Bag Length (cm)</label>
                     <div className="col-sm-10">
-                        <input type="number" className="form-control" placeholder="12" />
+                        <input type="number" className="form-control" placeholder="1080" />
                     </div>
                 </div>
                 <div className="form-group row">
