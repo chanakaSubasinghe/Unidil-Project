@@ -21,11 +21,11 @@ const bagRoute = require('./routes/bag');
 const recordRoute = require('./routes/record');
 const salaryRoute = require('./routes/salary');
 
-app.use(bagRoute);
-app.use(supervisorRoute);
-app.use(employeeRoute);
-app.use(recordRoute);
-app.use('/api/employees/', salaryRoute);
+// app.use(bagRoute);
+// app.use(supervisorRoute);
+// app.use(employeeRoute);
+// app.use(recordRoute);
+// app.use('/api/employees/', salaryRoute);
 
 if (environment === 'production') {
     app.use(express.static('client/build'));
