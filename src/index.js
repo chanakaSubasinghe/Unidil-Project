@@ -8,9 +8,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const environment = process.env.NODE_ENV || 'development';
 
-app.get('/', (req, res) => {
-    res.json({ name: `port - ${process.env.PORT}, environment - ${process.env.NODE_ENV}` });
-});
+// app.get('/', (req, res) => {
+//     res.json({ name: `port - ${process.env.PORT}, environment - ${process.env.NODE_ENV}` });
+// });
 
 app.use(express.json());
 app.use(cors());
