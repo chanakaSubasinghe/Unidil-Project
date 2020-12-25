@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
-// require('./db/mongoose');
+require('./db/mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,7 +21,7 @@ const bagRoute = require('./routes/bag');
 const recordRoute = require('./routes/record');
 const salaryRoute = require('./routes/salary');
 
-// app.use(bagRoute);
+app.use(bagRoute);
 app.use(supervisorRoute);
 app.use(employeeRoute);
 app.use(recordRoute);
