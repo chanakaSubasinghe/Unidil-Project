@@ -12,7 +12,7 @@ router.post('/api/bags', async (req, res) => {
 
         res.status(201).send(bag);
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     }
 });
 

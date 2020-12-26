@@ -5,11 +5,12 @@ import "jquery/dist/jquery.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "popper.js";
 
-import NavBar from './components/NavBar';
-import AddBag from "./components/AddBag";
-import AddEmployee from "./components/AddEmployee";
-import AddRecord from "./components/AddRecord";
+import NavBar from './components/partials/NavBar';
+import AddBag from "./components/bag/AddBag";
+import AddEmployee from "./components/employee/AddEmployee";
+import AddRecord from "./components/record/AddRecord";
 import Home from "./components/Home";
+import ReadAllBags from "./components/bag/ReadAllBags";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/add-bag" component={AddBag} />
+          <Route exact path="/read-all-bags" component={ReadAllBags} />
           <Route exact path="/add-employee" component={AddEmployee} />
           <Route exact path="/add-record" component={AddRecord} />
         </Switch>
