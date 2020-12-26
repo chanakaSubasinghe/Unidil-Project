@@ -49,7 +49,7 @@ function ReadAllBags() {
                                 <td>{bag.pastePrice}</td>
                                 <td>
                                     <div className="row">
-                                        <Link className="col-xs-6 btn btn-primary btn-sm mx-1" to={`/edit/${bag._id}`}>Edit</Link>
+                                        <Link className="col-xs-6 btn btn-primary btn-sm mx-1 disabled" to={`/edit/${bag._id}`}>Edit</Link>
                                         <Link className="col-xs-6 btn btn-danger btn-sm" to="#" onClick={() => onDelete(bag._id)}>Delete</Link>
                                     </div>
                                 </td>
