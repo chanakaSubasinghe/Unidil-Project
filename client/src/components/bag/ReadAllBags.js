@@ -31,8 +31,6 @@ function ReadAllBags() {
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">Width</th>
-                        <th scope="col">Length</th>
                         <th scope="col">Fold Price</th>
                         <th scope="col">Paste Price</th>
                         <th scope="col">Action</th>
@@ -43,8 +41,6 @@ function ReadAllBags() {
                         return (
                             <tr key={bag._id}>
                                 <td>{bag.name}</td>
-                                <td>{bag.width}</td>
-                                <td>{bag.length}</td>
                                 <td>{bag.foldPrice}</td>
                                 <td>{bag.pastePrice}</td>
                                 <td>

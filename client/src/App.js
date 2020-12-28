@@ -11,6 +11,7 @@ import AddEmployee from "./components/employee/AddEmployee";
 import AddRecord from "./components/record/AddRecord";
 import Home from "./components/Home";
 import ReadAllBags from "./components/bag/ReadAllBags";
+import ReadAllEmployees from "./components/employee/ReadAllEmployees";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/add-bag" component={AddBag} />
           <Route exact path="/read-all-bags" component={ReadAllBags} />
           <Route exact path="/add-employee" component={AddEmployee} />
+          <Route exact path="/read-all-employees" component={ReadAllEmployees} />
           <Route exact path="/add-record" component={AddRecord} />
         </Switch>
       </div>
