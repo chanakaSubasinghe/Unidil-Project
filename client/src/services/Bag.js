@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// create bag
+// create
 export const createBag = async (values) => {
     try {
         const response = await axios.post('/api/bags', values);
