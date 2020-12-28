@@ -60,6 +60,16 @@ const employeeSchema = new Schema({
     }
 );
 
+
+employeeSchema.post('save', function (error, doc, next) {
+    if (error.name === 'MongoError' && error.code === 11000) {
+        next(new Error('full name and contact number must be unique'));
+    } else {
+        next(error);
+    }
+});
+
+
 // compiling schema into a Model
 const Employee = mongoose.model('Employee', employeeSchema);
 
